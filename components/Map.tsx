@@ -13,9 +13,14 @@ const center = {
   lng: -74.0060
 }
 
+interface LatLngLiteral {
+  lat: number;
+  lng: number;
+}
+
 interface Ride {
-  pickup: string;
-  dropoff: string;
+  pickup: LatLngLiteral;
+  dropoff: LatLngLiteral;
 }
 
 interface MapProps {
@@ -67,8 +72,8 @@ export default function Map({ ride }: MapProps) {
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
-      {ride && ride.pickup && <Marker position={ride.pickup as any} label="P" />}
-      {ride && ride.dropoff && <Marker position={ride.dropoff as any} label="D" />}
+      {ride && ride.pickup && <Marker position={ride.pickup} label="P" />}
+      {ride && ride.dropoff && <Marker position={ride.dropoff} label="D" />}
       {directions && <DirectionsRenderer directions={directions} />}
     </GoogleMap>
   )

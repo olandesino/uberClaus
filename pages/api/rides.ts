@@ -4,6 +4,11 @@ import { v4 as uuidv4 } from 'uuid'
 import { getRides, addRide, updateRide } from '../../lib/db'
 import { authOptions } from './auth/[...nextauth]'
 
+interface LatLngLiteral {
+  lat: number;
+  lng: number;
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions)
 
@@ -15,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const rides = getRides()
     res.status(200).json(rides)
   } else if (req.method === 'POST') {
-    const { pickup, dropoff } = req.body
+    const { pickup, dropoff } = req.body as { pickup: LatLngLiteral; dropoff: LatLngLiteral }
     const newRide = {
       id: uuidv4(),
       customerId: session.user.id,
